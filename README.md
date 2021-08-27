@@ -43,13 +43,13 @@ To further understand my data and the results, I generated the following statist
 * For my mean absolute error, I got $118k, which implies that based on my mean house price of $481k, my model could be off by an absolute mean of $118k.
 
 * My coefficients for each variable are below. For every one increase in a related variable, the price should increase (decrease) by the following: 
-  -sqft_living          97.606532
-  -bedrooms         -17332.841463
-  -condition         45169.440498
-  -sqft_basement     38708.034543
-  -grade             88275.239195
-  -yr_renovated     102962.463360
-  -waterfront       242267.562235
+  - sqft_living          97.606532
+  - bedrooms         -17332.841463
+  - condition         45169.440498
+  - sqft_basement     38708.034543
+  - grade             88275.239195
+  - yr_renovated     102962.463360
+  - waterfront       242267.562235
   
 As you can see, houses that have a waterfront or are renovated increase the price of a house greatly. As these are binary variables, they are not incremental. For each increase in grade, the house price goes up by $88k.
 
@@ -63,17 +63,17 @@ As you can see, the Q-Q plot is normal for most data, but trails off towards hig
 
 * Next, is our variance inflation factor, to see how interrelated our features are. As you can see below, a lot of our variables are interrelated. This is to be expected, because the features of houses can be very correlated, for example, the more bedrooms there are in the house, the higher the sqft_living should be. To solve this issue, I am hoping to get more data in the future that shows more diverse features.
 
- -sqft_living      16.817056
- -bedrooms         21.899116
- -condition        20.350368
- -sqft_basement     1.709022
- -grade            38.245766
- -yr_renovated      1.037315
- -waterfront        1.009581
+ - sqft_living      16.817056
+ - bedrooms         21.899116
+ - condition        20.350368
+ - sqft_basement     1.709022
+ - grade            38.245766
+ - yr_renovated      1.037315
+ - waterfront        1.009581
 
 * Lastly, I check for homoscedasticity
 
-![Image 5](https://raw.githubusercontent.com/justingrisanti/dsc-phase-2-project/master/Visualizations/Homoscedasicity.png)
+![Image 5](https://raw.githubusercontent.com/justingrisanti/dsc-phase-2-project/master/Visualizations/Homoscedasticity.png)
 
 There doesn't seem to be that bad of a funnel shape, there seems to be issues as the prices get larger, but hopefully we can sample a larger set of data with pricier houses to get a more accurate model in the future.
 

@@ -1,66 +1,82 @@
 # Phase 2 Project
 
-Another module down--you're almost half way there!
+## Step 1: Business Understanding
 
-![awesome](https://raw.githubusercontent.com/learn-co-curriculum/dsc-phase-2-project-campus/master/halfway-there.gif)
+The purpose of this section is to understand what the business problem and the stakeholders that will be understanding the work that I am performing. The stakeholder of my project is a real-estate consulting start-up that tries to help clients increase the value of their home. The main purpose of this algorithm is predictive, meaning that the model should be able to take in attributes of houses, and to predict price increases associated with it.
 
-All that remains in Phase 2 is to put our newfound data science skills to use with a large project! This project should take 20 to 30 hours to complete.
+The secondary purpose of this algorithm is inferential, meaning that the model should reveal something about the relationship between the attributes of a housing attributes and its price. I will apply my knowledge of statistics to include appropriate dialogue about these relationships. This could help home-owners take the necessary steps to modify their home to maximize a potential return.
 
-## Project Overview
+## Step 2: Data Understanding
 
-For this project, you will use regression modeling to analyze house sales in a northwestern county.
+First, I inferred that the data comes from Kings County, Washington, based on what I can see from latitude and longitude. Second, it includes several items related to housing information, including beds and baths, lot size, and condition/grade. This data is useful because it has many attributes that can impact the target variable. In this case, I will be using price as my target variable and will use the other variables to predict price using regression.
 
-### The Data
+## Step 3: Data Preparation
 
-This project uses the King County House Sales dataset, which can be found in  `kc_house_data.csv` in the data folder in this repo. The description of the column names can be found in `column_names.md` in the same folder. As with most real world data sets, the column names are not perfectly described, so you'll have to do some research or use your best judgment if you have questions about what the data means.
+In my data, I clean each column by checking for empty or missing data, remove outliers, and check for erroneous data from typos. This ensures that my models are getting proper data that allows for better results.
 
-It is up to you to decide what data from this dataset to use and how to use it. If you are feeling overwhelmed or behind, we recommend you ignore some or all of the following features:
+## Step 4: Modeling
 
-* date
-* view
-* sqft_above
-* sqft_basement
-* yr_renovated
-* zipcode
-* lat
-* long
-* sqft_living15
-* sqft_lot15
+The first step in my modeling is to create a heatmap to get the most correlated variables. As you can see below, those variables were grade and sqft_living.
 
-### Business Problem
+![Image 1](https://raw.githubusercontent.com/justingrisanti/dsc-phase-2-project/master/Visualizations/heatmap.png)
 
-It is up to you to define a stakeholder and business problem appropriate to this dataset.
+After removing highly variables for multicollinearity, I ran my baseline model. For both of my variables, I got a train score of .403 and a validation score of .400
 
-If you are struggling to define a stakeholder, we recommend you complete a project for a real estate agency that helps homeowners buy and/or sell homes. A business problem you could focus on for this stakeholder is the need to provide advice to homeowners about how home renovations might increase the estimated value of their homes, and by what amount.
+### Model 2.0
 
-## Deliverables
+I then created a model based on all numeric features, including bedrooms, sqft_living, condition, and grade. This model generated a train score of .488 and a validation score of .485. It is getting better, but I think there is a better model.
 
-There are three deliverables for this project:
+### Final Model
 
-* A **GitHub repository**
-* A **Jupyter Notebook**
-* A **non-technical presentation**
+For this final model, I ran a for loop to generate every possible model for the 7 variables: floors, condition, sqft_basement (binary), waterfront, yr_renovated, sqft_living and grade. I generated 63 models and their related train/validation scores.
 
-Review the "Project Submission & Review" page in the "Milestones Instructions" topic for instructions on creating and submitting your deliverables. Refer to the rubric associated with this assignment for specifications describing high-quality deliverables.
+The model that got me the best scores had all 7 variables listed above, with a train score of .505 and a validation score of .498
 
-### Key Points
+After generating my final r^2 statistic I got .5166.
 
-* **Your deliverables should explicitly address each step of the data science process.** Refer to [the Data Science Process lesson](https://github.com/learn-co-curriculum/dsc-data-science-processes) from Topic 19 for more information about process models you can use.
+![Image 2](https://raw.githubusercontent.com/justingrisanti/dsc-phase-2-project/master/Visualizations/features.png)
 
-* **Your Jupyter Notebook should demonstrate an iterative approach to modeling.** This means that you begin with a basic model, evaluate it, and then provide justification for and proceed to a new model. After you finish refining your models, you should provide 1-3 paragraphs discussing your final model - this should include interpreting at least 3 important parameter estimates or statistics.
+## Step 5: Regression Results
 
-* **Based on the results of your models, your notebook and presentation should discuss at least two features that have strong relationships with housing prices.**
+To further understand my data and the results, I generated the following statistics: 
 
-## Getting Started
+* For my mean absolute error, I got $118k, which implies that based on my mean house price of $481k, my model could be off by an absolute mean of $118k.
 
-Start on this project by forking and cloning [this project repository](https://github.com/learn-co-curriculum/dsc-phase-2-project) to get a local copy of the dataset.
+* My coefficients for each variable are below. For every one increase in a related variable, the price should increase (decrease) by the following: 
+  -sqft_living          97.606532
+  -bedrooms         -17332.841463
+  -condition         45169.440498
+  -sqft_basement     38708.034543
+  -grade             88275.239195
+  -yr_renovated     102962.463360
+  -waterfront       242267.562235
+  
+As you can see, houses that have a waterfront or are renovated increase the price of a house greatly. As these are binary variables, they are not incremental. For each increase in grade, the house price goes up by $88k.
 
-We recommend structuring your project repository similar to the structure in [the Phase 1 Project Template](https://github.com/learn-co-curriculum/dsc-project-template). You can do this either by creating a new fork of that repository to work in or by building a new repository from scratch that mimics that structure.
+* Next, we check for normality to make sure our normality assumption is accurate. I generated a perfect fit line, as well as a Q-Q plot below.
 
-## Project Submission and Review
+![Image 3](https://raw.githubusercontent.com/justingrisanti/dsc-phase-2-project/master/Visualizations/Linearity.png)
+  
+![Image 4](https://raw.githubusercontent.com/justingrisanti/dsc-phase-2-project/master/Visualizations/Normality.png)
 
-Review the "Project Submission & Review" page in the "Milestones Instructions" topic to learn how to submit your project and how it will be reviewed. Your project must pass review for you to progress to the next Phase.
+As you can see, the Q-Q plot is normal for most data, but trails off towards higher priced homes. Our line of fit seems to be linear, so no issues here, as well.
 
-## Summary
+* Next, is our variance inflation factor, to see how interrelated our features are. As you can see below, a lot of our variables are interrelated. This is to be expected, because the features of houses can be very correlated, for example, the more bedrooms there are in the house, the higher the sqft_living should be. To solve this issue, I am hoping to get more data in the future that shows more diverse features.
 
-This project will give you a valuable opportunity to develop your data science skills using real-world data. The end-of-phase projects are a critical part of the program because they give you a chance to bring together all the skills you've learned, apply them to realistic projects for a business stakeholder, practice communication skills, and get feedback to help you improve. You've got this!
+ -sqft_living      16.817056
+ -bedrooms         21.899116
+ -condition        20.350368
+ -sqft_basement     1.709022
+ -grade            38.245766
+ -yr_renovated      1.037315
+ -waterfront        1.009581
+
+* Lastly, I check for homoscedasticity
+
+![Image 5](https://raw.githubusercontent.com/justingrisanti/dsc-phase-2-project/master/Visualizations/Homoscedasicity.png)
+
+There doesn't seem to be that bad of a funnel shape, there seems to be issues as the prices get larger, but hopefully we can sample a larger set of data with pricier houses to get a more accurate model in the future.
+
+## Next Steps
+
+Our confidence in these coefficients should be not that high, as there seem to be some issues with the model. I hope to retest this model in the future with more data surrounding pricier houses, different features, such as location or color of house. I believe this added data should make our model stronger. 
